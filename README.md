@@ -19,4 +19,4 @@ By typing:
 You'll enter Edit Lore mode, where you can easily edit lines, add new lines in lore. Just read ingame FAQ to figure out how to use that.
 
 ## Building
-Project can be build with Gradle by running `jar` task. [What is Gradle](https://www.google.com/)
+Project can be built with Gradle by running `jar` task. [What is Gradle](https://www.google.com/)
