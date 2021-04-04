@@ -1,0 +1,6 @@
+name: DMParser
+version: @version@
+main: com.magicsweet.dmparser.DMParser
+api-version: 1.16
+depend: [MagicLib, CommandAPI]
+authors: [MagicSweet]
