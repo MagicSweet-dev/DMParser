@@ -1,7 +1,9 @@
 import org.apache.tools.ant.filters.ReplaceTokens
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
 
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
 }
 
 group = 'com.magicsweet'
@@ -39,6 +41,7 @@ dependencies {
     compileOnly 'dev.jorel:commandapi-core:5.6'
     compileOnly 'de.tr7zw:item-nbt-api-plugin:2.7.1'
 
+    compileOnly 'org.spongepowered:configurate-yaml:4.0.0'
 }
 
 processResources {
@@ -46,3 +49,17 @@ processResources {
         filter ReplaceTokens, tokens: [version: version]
     }
 }
+
+shadowJar {
+
+    dependencies {
+        include(dependency('org.spongepowered:configurate-yaml:*'))
+    }
+}
+
+task relocateShadowJar(type: ConfigureShadowRelocation) {
+    target = tasks.shadowJar
+    prefix = 'shadow'
+}
+
+tasks.shadowJar.dependsOn tasks.relocateShadowJar
