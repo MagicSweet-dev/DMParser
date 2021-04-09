@@ -47,7 +47,7 @@ public class LoreEdit implements Listener {
 			return;
 		}
 		
-		if (!item.getItemMeta().lore().isEmpty()) {
+		if (item.getItemMeta().lore() != null && !item.getItemMeta().lore().isEmpty()) {
 			lines = item.getItemMeta().lore();
 		}
 		

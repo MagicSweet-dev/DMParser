@@ -18,12 +18,13 @@ public class ParseToFileCommand {
 			if (block.getState() instanceof Chest) {
 				var chest = (Chest) block.getState();
 				
+				new DMParseHandler(sender, chest);
 				
-				
+				return;
 			} else {
-				sender.sendMessage("Block at" + LocationUtil.locationToString(block.getLocation()));
+				sender.sendMessage("Block at " + LocationUtil.locationToString(block.getLocation()) + " isn't a chest!");
 			}
-			sender.sendMessage("");
+			
 		}).register();
 	}
 }

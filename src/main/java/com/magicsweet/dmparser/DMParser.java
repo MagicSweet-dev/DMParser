@@ -1,5 +1,6 @@
 package com.magicsweet.dmparser;
 
+import com.magicsweet.dmparser.command.ParseToFileCommand;
 import com.magicsweet.dmparser.editmode.LoreEdit;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.ChatComponentArgument;
@@ -69,12 +70,13 @@ public final class DMParser extends JavaPlugin {
 			item.setItemMeta(meta);
 		}).register();
 		
+		new ParseToFileCommand();
 	}
 	
 	@Override
 	public void onEnable() {
 		// Plugin startup logic
-		
+		saveDefaultConfig();
 	}
 	
 	@Override
