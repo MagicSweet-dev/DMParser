@@ -87,6 +87,8 @@ public class DMParseHandler implements Listener {
 	@EventHandler(priority = EventPriority.LOW) @SneakyThrows
 	public void chatEvent(AsyncPlayerChatEvent event) {
 		
+		
+		
 		var isDefault = event.getMessage().equals("def");
 		var input = event.getMessage();
 		
@@ -140,6 +142,20 @@ public class DMParseHandler implements Listener {
 				item.node("amount").set(int.class, itemStack.getAmount());
 				if (meta.hasDisplayName()) item.node("display_name").set(String.class, LegacyComponentSerializer.legacyAmpersand().serialize(meta.displayName()));
 				if (meta.hasLore()) item.node("lore").set(String[].class, meta.lore().stream().map(LegacyComponentSerializer.legacyAmpersand()::serialize).collect(Collectors.toList()).toArray(String[]::new));
+				
+				item.node("update").set(boolean.class, true);
+				
+				if (itemStack.getItemMeta().hasEnchants()) {
+					item.node("enchantments").set(String[].class, itemStack.getItemMeta().getEnchants().keySet().stream().map(ench -> {
+						var lvl = itemStack.getItemMeta().getEnchants().get(ench);
+						return ench.getName() + ";" + lvl;
+					}).collect(Collectors.toList()).toArray(String[]::new));
+					item.node("hide_enchantments").set(boolean.class, true);
+				}
+				
+				if (itemStack.getItemMeta().hasAttributeModifiers()) {
+					item.node("hide_attributes").set(boolean.class, true);
+				}
 				
 				i = i + 1;
 			}
