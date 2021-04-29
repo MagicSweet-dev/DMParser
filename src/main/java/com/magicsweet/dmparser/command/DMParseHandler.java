@@ -5,13 +5,18 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.inventory.DoubleChestInventory;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.spongepowered.configurate.BasicConfigurationNode;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.ConfigurationOptions;
@@ -19,11 +24,14 @@ import org.spongepowered.configurate.yaml.NodeStyle;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class DMParseHandler implements Listener {
 	final Player player;
 	Chest block;
+	Chest block2;
 	InputAwaitMode inputAwaitMode;
 	
 	String fileName;
@@ -72,9 +80,10 @@ public class DMParseHandler implements Listener {
 		
 	}
 	
-	public DMParseHandler(Player player, Chest block) {
+	public DMParseHandler(Player player, Chest block, Chest block2) {
 		this.player = player;
 		this.block = block;
+		this.block2 = block2;
 		this.inputAwaitMode = InputAwaitMode.FILE_NAME;
 		
 		master = BasicConfigurationNode.root(ConfigurationOptions.defaults());
@@ -131,7 +140,16 @@ public class DMParseHandler implements Listener {
 		
 		var i = 0;
 		var slot = 0;
-		for (var itemStack: block.getInventory().getContents()) {
+		
+		var inventory = block.getInventory().getContents();
+		
+		if (block2 != null) {
+			var list = new ArrayList<>(Arrays.asList(block.getInventory().getContents()));
+			list.addAll(Arrays.asList(block2.getInventory().getContents()));
+			inventory = list.toArray(ItemStack[]::new);
+		}
+		
+		for (var itemStack: inventory) {
 			if (itemStack != null) {
 				var item = items.node("" + i);
 				
